@@ -3,7 +3,6 @@ package com.investimentus.backend
 import com.investimentus.backend.handler.StockHandler
 import io.vertx.config.ConfigRetriever
 import io.vertx.ext.web.Router
-import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.StaticHandler
 import io.vertx.kotlin.config.getConfigAwait
 import io.vertx.kotlin.core.http.listenAwait
@@ -16,9 +15,8 @@ class WebVerticle : CoroutineVerticle() {
     val router = Router.router(vertx)
 
     // Serve static resources from the /assets directory
-    router.route("/assets/*").handler(StaticHandler.create("assets"))
+    router.route("/").handler(StaticHandler.create())
 
-    router.get("/").handler { index(it) }
     router.get("/stocks/:ticker").handler { StockHandler.getById(it) }
     router.get("/stocks/:ticker/time-series-intraday").handler { StockHandler.getTimeSeriesIntraday(it) }
 
@@ -30,12 +28,6 @@ class WebVerticle : CoroutineVerticle() {
     } catch (ex: Exception) {
       error("Could not spawn web server at port $port")
     }
-  }
-
-  private fun index(req: RoutingContext) {
-    req.response()
-      .putHeader("content-type", "text/plain")
-      .end("Hello from Vert.x!")
   }
 
 }

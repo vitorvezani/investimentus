@@ -68,6 +68,7 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
+      <version>${vertx.version}</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
@@ -90,6 +91,11 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit-jupiter.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>vue</artifactId>
+      <version>2.5.16</version>
     </dependency>
   </dependencies>
 
@@ -161,6 +167,23 @@
             <argument>run</argument>
             <argument>${main.verticle}</argument>
           </arguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>vertx-maven-plugin</artifactId>
+        <version>1.0.13</version>
+        <executions>
+          <execution>
+            <id>vmp</id>
+            <goals>
+              <goal>package</goal>
+              <goal>initialize</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <redeploy>true</redeploy>
         </configuration>
       </plugin>
     </plugins>
